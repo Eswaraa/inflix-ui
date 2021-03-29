@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        .flex-fill {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body onLoad="init()">
+    <div class="container-fluid d-flex h-100 flex-column bg-dark">
+        <!-- <div class="row bg-light w-100"> -->
+        <nav class="navbar navbar-expand-lg navbar-dark  justify-content-between"> <a class="navbar-brand"
+                href="#">Inflix</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span
+                    class="navbar-toggler-icon"></span> </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"> <a class="nav-link" href="#" id="menuShowAlbums"
+                            onclick="showAlbums()">Albums</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#" id="menuCreateAlbum"
+                            onclick="showCreateAlbum()">Create</a> </li>
+                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                            role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Maintain
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown"> <a class="dropdown-item"
+                                href="#">Modify</a> <a class="dropdown-item" href="#">Delete</a> </div>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link disabled" href="#">Users</a> </li>
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+        <!-- </div> -->
+        <div class="row flex-fill">
+            <div class="col-sm-2 bg-light"> Left Menu - Context </div>
+            <div class="col-sm-10 bg-info">
+                <div class="container-fluid" id="FormCreateAlbum" style="display: none">Content for class
+                    "container-fluid" id
+                    "FormCreateAlbum" Goes Here
+                    <!--Form Content goes here-->
+                    <div class="row">
+                        <div class="col">
+                            <label for="title"> Title:</label>
+                        </div>
+                        <div class="col">
+                            <input type=text size="40" id="title" name="title">
+                            </input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="release"> Release:</label>
+                        </div>
+                        <div class="col">
+                            <input type=text size="40" id="release" name="release">
+                            </input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="production"> Production:</label>
+                        </div>
+                        <div class="col">
+                            <input type=text size="40" id="production" name="production">
+                            </input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="director"> Director:</label>
+                        </div>
+                        <div class="col">
+                            <input type=text size="40" id="director" name="director">
+                            </input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="isPremium"> IsPremium:</label>
+                        </div>
+                        <div class="col">
+                            <input type=checkbox size="40" id="isPremium" name="isPremium">
+                            </input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <input type=button size="10" name="cancel" id="btnCancel" value="Cancel"
+                                onclick="clearForm()">
+                        </div>
+                        <div class="col">
+                            <input type=submit size="10" name="submit" id="btnSubmit" onclick="createAlbum()">
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid" id="FormShowAlbums" style="display:none">
+                    <div class="row">
+                        <table id="tblAlbumsList" class="table table-striped table-bordered dt-responsive nowrap"
+                            style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Release</th>
+                                    <th>Production</th>
+                                    <th>Director</th>
+                                    <th>Premium?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- <tr>
+                                    <td>Tiger</td>
+                                    <td>Nixon</td>
+                                    <td>System Architect</td>
+                                    <td>Edinburgh</td>
+                                    <td>61</td>
+                                    <td>2011/04/25</td>
+                                    <td>t.nixon@datatables.net</td>
+                                </tr>
+                                <tr>
+                                    <td>Garrett</td>
+                                    <td>Winters</td>
+                                    <td>Accountant</td>
+                                    <td>Tokyo</td>
+                                    <td>63</td>
+                                    <td>2011/07/25</td>
+                                    <td>g.winters@datatables.net</td>
+                                </tr>
+                                <tr>
+                                    <td>Ashton</td>
+                                    <td>Cox</td>
+                                    <td>Junior Technical Author</td>
+                                    <td>San Francisco</td>
+                                    <td>66</td>
+                                    <td>2009/01/12</td>
+                                    <td>a.cox@datatables.net</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js" -->
+    crossorigin="anonymous"></script>
+    <script src="js/album-rest.js"></script>
+    <script src="js/menu.js"></script>
+</body>
+
+</html>
